@@ -1,205 +1,216 @@
-const envelope = document.getElementById('envelope');
-const loveLetter = document.getElementById('loveLetter');
-const letterContinue = document.getElementById('letterContinue');
-const valentineQuestion = document.getElementById('valentineQuestion');
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
-const response = document.getElementById('response');
-const thankYouLetter = document.getElementById('thankYouLetter');
-const thankYouContinue = document.getElementById('thankYouContinue');
-const surpriseCategories = document.getElementById('surpriseCategories');
-const flowersSection = document.getElementById('flowersSection');
-const photosSection = document.getElementById('photosSection');
-const songSection = document.getElementById('songSection');
-const bgMusic = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
+/* ═══════════════════════════════════════════
+   animation.js  — pure visual effects
+═══════════════════════════════════════════ */
 
-let noClickCount = 0;
-let yesBtnScale = 1;
-let isMusicPlaying = false;
-let musicStarted = false;
+/* ─── GLITTER CANVAS ─── */
+const canvas = document.getElementById('glitter');
+const ctx    = canvas.getContext('2d');
+let glitterParticles = [];
 
-// Music toggle functionality
-musicToggle.addEventListener('click', () => {
-  if (isMusicPlaying) {
-    bgMusic.pause();
-    musicToggle.textContent = '🔇';
-    musicToggle.classList.remove('playing');
-    isMusicPlaying = false;
-  } else {
-    bgMusic.play().catch(e => console.log('Audio play failed:', e));
-    musicToggle.textContent = '🔊';
-    musicToggle.classList.add('playing');
-    isMusicPlaying = true;
+function resizeCanvas() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', () => { resizeCanvas(); initGlitter(); });
+
+function initGlitter() {
+  glitterParticles = [];
+  const count = Math.floor((canvas.width * canvas.height) / 3800);
+  const colors = ['#ff6b6b','#ffb3c6','#ffd700','#ff8c94','#ffffff','#c0392b','#f1948a','#e74c3c'];
+  for (let i = 0; i < count; i++) {
+    glitterParticles.push({
+      x:          Math.random() * canvas.width,
+      y:          Math.random() * canvas.height,
+      r:          Math.random() * 2 + 0.4,
+      speed:      Math.random() * 0.35 + 0.08,
+      drift:      (Math.random() - 0.5) * 0.4,
+      opacity:    Math.random(),
+      opacityDir: Math.random() > 0.5 ? 1 : -1,
+      color:      colors[Math.floor(Math.random() * colors.length)],
+      angle:      Math.random() * Math.PI * 2
+    });
   }
-});
+}
+initGlitter();
 
-// Step 1: Open envelope → Show love letter
-envelope.addEventListener('click', () => {
-  // Start music on first interaction
-  if (!musicStarted) {
-    bgMusic.play().catch(e => console.log('Audio play failed:', e));
-    musicToggle.textContent = '🔊';
-    musicToggle.classList.add('playing');
-    isMusicPlaying = true;
-    musicStarted = true;
-  }
+function drawGlitter(ts) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  glitterParticles.forEach(p => {
+    // move
+    p.y       -= p.speed;
+    p.x       += p.drift;
+    p.opacity += p.opacityDir * 0.012;
+    if (p.opacity >= 1)   { p.opacityDir = -1; }
+    if (p.opacity <= 0)   { p.opacityDir =  1; }
+    if (p.y < -6)         { p.y = canvas.height + 6; p.x = Math.random() * canvas.width; }
+    if (p.x < -6 || p.x > canvas.width + 6) { p.x = Math.random() * canvas.width; }
 
-  envelope.classList.add('opening');
-  setTimeout(() => {
-    envelope.style.display = 'none';
-    loveLetter.classList.remove('hidden');
-  }, 1200);
-});
+    // draw 4-point star
+    ctx.save();
+    ctx.globalAlpha  = Math.max(0, p.opacity);
+    ctx.fillStyle    = p.color;
+    ctx.shadowBlur   = 8;
+    ctx.shadowColor  = p.color;
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.angle + ts * 0.0008);
+    ctx.beginPath();
+    for (let i = 0; i < 4; i++) {
+      const a = (i * Math.PI) / 2;
+      ctx.lineTo(Math.cos(a) * p.r * 2.8, Math.sin(a) * p.r * 2.8);
+      ctx.lineTo(Math.cos(a + Math.PI / 4) * p.r * 0.9, Math.sin(a + Math.PI / 4) * p.r * 0.9);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  });
+  requestAnimationFrame(drawGlitter);
+}
+requestAnimationFrame(drawGlitter);
 
-// Step 2: Love letter continue → Show valentine question
-letterContinue.addEventListener('click', () => {
-  loveLetter.style.opacity = '0';
-  loveLetter.style.transform = 'scale(0.9)';
-  loveLetter.style.transition = 'all 0.5s ease';
-  setTimeout(() => {
-    loveLetter.classList.add('hidden');
-    loveLetter.style.opacity = '1';
-    loveLetter.style.transform = 'scale(1)';
-    valentineQuestion.classList.remove('hidden');
-  }, 500);
-});
+/* ─── FALLING PETALS ─── */
+const petalsContainer = document.getElementById('petals');
 
-// Step 3: Yes button → Show thank you
-yesBtn.addEventListener('click', () => {
-  response.textContent = "Yay! You've made me the happiest! 🥰💕✨";
-  response.classList.add('show');
-  yesBtn.style.display = 'none';
-  noBtn.style.display = 'none';
-  
-  setTimeout(() => {
-    valentineQuestion.style.opacity = '0';
-    valentineQuestion.style.transform = 'scale(0.9)';
-    valentineQuestion.style.transition = 'all 0.5s ease';
-    
-    setTimeout(() => {
-      valentineQuestion.classList.add('hidden');
-      valentineQuestion.style.opacity = '1';
-      valentineQuestion.style.transform = 'scale(1)';
-      thankYouLetter.classList.remove('hidden');
-    }, 500);
-  }, 2000);
-});
-
-// Function to move No button to random position
-function moveNoButtonRandomly() {
-  const valentineBox = valentineQuestion.getBoundingClientRect();
-  const btnWidth = noBtn.offsetWidth;
-  const btnHeight = noBtn.offsetHeight;
-  
-  // Calculate safe boundaries (keep button inside the valentine question box)
-  const maxX = valentineBox.width - btnWidth - 100;
-  const maxY = valentineBox.height - btnHeight - 100;
-  
-  // Generate random position
-  const randomX = Math.random() * maxX - (maxX / 2);
-  const randomY = Math.random() * maxY - (maxY / 2);
-  
-  // Make button position absolute on first click
-  if (noClickCount === 1) {
-    noBtn.style.position = 'absolute';
-  }
-  
-  // Move the button
-  noBtn.style.left = `calc(50% + ${randomX}px)`;
-  noBtn.style.top = `calc(50% + ${randomY}px)`;
-  noBtn.style.transform = `translate(-50%, -50%) scale(${1 - (noClickCount * 0.05)})`;
+function spawnPetal() {
+  const p       = document.createElement('div');
+  p.className   = 'petal';
+  const emojis  = ['🌸', '🌺', '🌹', '🌷'];
+  p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  const dur     = 6 + Math.random() * 9;
+  const size    = 14 + Math.random() * 18;
+  p.style.cssText = `
+    left: ${Math.random() * 100}vw;
+    top: -40px;
+    font-size: ${size}px;
+    animation-duration: ${dur}s;
+    animation-delay: ${Math.random() * 3}s;
+    --drift: ${(Math.random() - 0.5) * 180}px;
+    opacity: ${0.5 + Math.random() * 0.5};
+  `;
+  petalsContainer.appendChild(p);
+  setTimeout(() => p.remove(), (dur + 3) * 1000);
 }
 
-// No button interaction - moves randomly unlimited
-noBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-  noClickCount++;
-  
-  // Grow Yes button
-  yesBtnScale += 0.15;
-  yesBtn.style.transform = `scale(${yesBtnScale})`;
-  yesBtn.style.fontSize = `${20 + noClickCount * 2}px`;
-  
-  const noTexts = [
-    'Are you sure? 🥺',
-    'Really? 🥹',
-    'Think again... 💭',
-    'Please? 🙏',
-    'Pretty please? 🥺✨',
-    'Just click Yes! 💕',
-    'No? Really? 😢',
-    'Come on... 🥺',
-    'Please say yes! 💕',
-    'Why not? 😭',
-    'One more chance? 🙏',
-    'You know you want to! 😊',
-    'Click Yes instead! 💖',
-    'Just say yes! 🥰'
-  ];
-  
-  // Cycle through texts or pick random after array length
-  if (noClickCount <= noTexts.length) {
-    noBtn.textContent = noTexts[noClickCount - 1];
-  } else {
-    noBtn.textContent = noTexts[Math.floor(Math.random() * noTexts.length)];
+setInterval(spawnPetal, 800);
+
+/* ─── FLOATING HEARTS (ambient) ─── */
+function spawnAmbientHeart() {
+  const h       = document.createElement('div');
+  h.className   = 'fheart';
+  const emojis  = ['💕', '🌹', '❤️', '💗', '🌸'];
+  h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  const dur     = 4 + Math.random() * 5;
+  const size    = 12 + Math.random() * 16;
+  h.style.cssText = `
+    left: ${Math.random() * 100}vw;
+    top: 100vh;
+    font-size: ${size}px;
+    --rot: ${Math.random() * 360}deg;
+    animation-duration: ${dur}s;
+  `;
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), dur * 1000 + 200);
+}
+setInterval(spawnAmbientHeart, 1600);
+
+/* ─── EXPORTED BURST HELPERS ─── */
+
+/**
+ * Launch hearts from a point
+ * @param {number} x
+ * @param {number} y
+ * @param {number} count
+ */
+function launchHearts(x, y, count = 12) {
+  const emojis = ['💕', '💖', '🌹', '❤️', '💗', '💓', '🌸'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const h       = document.createElement('div');
+      h.className   = 'fheart';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      const dur     = 1.4 + Math.random() * 1.6;
+      h.style.cssText = `
+        left: ${x + (Math.random() - 0.5) * 120}px;
+        top: ${y}px;
+        font-size: ${18 + Math.random() * 18}px;
+        --rot: ${(Math.random() * 360)}deg;
+        animation-duration: ${dur}s;
+      `;
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), dur * 1000 + 100);
+    }, i * 70);
   }
-  
-  response.textContent = "The Yes button is looking pretty good right now... 👀";
-  response.classList.add('show');
-  
-  setTimeout(() => {
-    if (response.textContent.includes('good right now')) {
-      response.classList.remove('show');
-    }
-  }, 2000);
-  
-  // Move No button to random position unlimited times
-  moveNoButtonRandomly();
-});
+}
 
-// Step 4: Thank you continue → Show categories
-thankYouContinue.addEventListener('click', () => {
-  thankYouLetter.style.opacity = '0';
-  thankYouLetter.style.transform = 'scale(0.9)';
-  thankYouLetter.style.transition = 'all 0.5s ease';
-  
-  setTimeout(() => {
-    thankYouLetter.classList.add('hidden');
-    thankYouLetter.style.opacity = '1';
-    thankYouLetter.style.transform = 'scale(1)';
-    surpriseCategories.classList.remove('hidden');
-  }, 500);
-});
+/**
+ * Launch confetti from a point
+ * @param {number} x
+ * @param {number} y
+ */
+function launchConfetti(x, y) {
+  const colors = ['#c0392b', '#e74c3c', '#f39c12', '#f1948a', '#fff', '#fadbd8', '#ffd700'];
+  for (let i = 0; i < 45; i++) {
+    const c     = document.createElement('div');
+    c.className = 'confetti-p';
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 80 + Math.random() * 170;
+    const dur   = 0.7 + Math.random() * 0.9;
+    c.style.cssText = `
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      left: ${x}px;
+      top: ${y}px;
+      --cx: ${Math.cos(angle) * dist}px;
+      --cy: ${Math.sin(angle) * dist}px;
+      --cr: ${Math.random() * 720 - 360}deg;
+      animation-duration: ${dur}s;
+    `;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), dur * 1000 + 100);
+  }
+}
 
-// Categories
-document.getElementById('category1').addEventListener('click', () => {
-  surpriseCategories.classList.add('hidden');
-  flowersSection.classList.remove('hidden');
-});
+/**
+ * Spawn continuously rising spark particles inside an element
+ * Used for the rose/flowers section background
+ * @param {HTMLElement} container  — .rose-particles div
+ */
+function startRoseSparks(container) {
+  if (!container) return;
+  // clear old interval if re-entering
+  if (container._sparkInterval) clearInterval(container._sparkInterval);
 
-document.getElementById('category2').addEventListener('click', () => {
-  surpriseCategories.classList.add('hidden');
-  photosSection.classList.remove('hidden');
-});
+  const colors = ['#c0392b', '#e74c3c', '#f1948a', '#ffd700', '#fff', '#fadbd8'];
 
-document.getElementById('category3').addEventListener('click', () => {
-  surpriseCategories.classList.add('hidden');
-  songSection.classList.remove('hidden');
-});
+  container._sparkInterval = setInterval(() => {
+    const s     = document.createElement('div');
+    s.className = 'spark';
+    const size  = 3 + Math.random() * 5;
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 60 + Math.random() * 120;
+    const dur   = 1.2 + Math.random() * 2;
+    s.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      box-shadow: 0 0 ${size * 2}px ${colors[0]};
+      left: ${10 + Math.random() * 80}%;
+      bottom: ${10 + Math.random() * 30}%;
+      --sx: ${Math.cos(angle) * dist}px;
+      --sy: ${-Math.abs(Math.sin(angle)) * dist - 40}px;
+      animation-duration: ${dur}s;
+    `;
+    container.appendChild(s);
+    setTimeout(() => s.remove(), dur * 1000 + 100);
+  }, 120);
+}
 
-// Back buttons
-document.getElementById('backFromFlowers').addEventListener('click', () => {
-  flowersSection.classList.add('hidden');
-  surpriseCategories.classList.remove('hidden');
-});
-
-document.getElementById('backFromPhotos').addEventListener('click', () => {
-  photosSection.classList.add('hidden');
-  surpriseCategories.classList.remove('hidden');
-});
-
-document.getElementById('backFromSong').addEventListener('click', () => {
-  songSection.classList.add('hidden');
-  surpriseCategories.classList.remove('hidden');
-});
+/**
+ * Stop rose sparks
+ * @param {HTMLElement} container
+ */
+function stopRoseSparks(container) {
+  if (container && container._sparkInterval) {
+    clearInterval(container._sparkInterval);
+    container._sparkInterval = null;
+  }
+}

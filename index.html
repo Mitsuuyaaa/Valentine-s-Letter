@@ -1,207 +1,318 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>For You 💌</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Background Music -->
-    <audio id="bgMusic" loop>
-      <source
-        src="bg-music/Taylor Swift - Daylight (Lyric Video).mp3"
-        type="audio/mpeg"
-      />
-    </audio>
 
-    <!-- Music Control Button -->
-    <button id="musicToggle" class="music-toggle">🔇</button>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For My Babi 💌</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;600&family=Dancing+Script:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
 
-    <div class="container">
-      <!-- Envelope -->
-      <div id="envelope" class="envelope">
-        <div class="envelope-flap"></div>
-        <div class="envelope-body">
-          <div class="envelope-label">💌 Click to open</div>
+<body>
+
+  <!-- Glitter Canvas -->
+  <canvas id="glitter"></canvas>
+
+  <!-- Falling Petals Container -->
+  <div id="petals"></div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="bg-music/Taylor Swift - Daylight (Lyric Video).mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Music Toggle -->
+  <button id="musicToggle" class="music-toggle">🔇</button>
+
+  <!-- ══════════════════════════
+       SECTION 1 · HERO TITLE
+  ══════════════════════════ -->
+  <section id="heroSection" class="page-section hero-section">
+    <div class="hero-wrap">
+      <div class="hero-roses">🌹</div>
+      <h1 class="hero-title">To My Babi,</h1>
+      <h2 class="hero-sub">My Everything 💕</h2>
+      <div class="hero-divider"></div>
+      <p class="hero-hint">scroll down, baby 🌹</p>
+      <div class="scroll-arrow">↓</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════
+       SECTION 2 · LOVE LETTER
+  ══════════════════════════ -->
+  <section id="letterSection" class="page-section letter-section">
+    <div class="letter-card">
+      <div class="letter-salutation">Dear Babi, 🤍</div>
+
+      <p>Happy Valentine's Day, love.</p>
+
+      <p>It’s only been two months of us, but it already feels like we’ve shared so many memories together — full of
+        laughter, happiness, kulit moments, and even the little fights that we always manage to fix. And that’s what I
+        love most about us. We don’t give up on each other. We choose each other every single time.</p>
+
+      <p>I also want to sincerely say sorry. Sorry for the times I fell asleep without telling you, for the moments I
+        wasn’t careful with your feelings, and especially for how I acted when you gave me the bouquet. You put effort
+        and love into that, and I should have shown you how much it meant to me. If my reaction hurt you or made you
+        feel unappreciated, I’m truly sorry. You never deserved that.</p>
+
+      <p>Thank you for being patient with me, for understanding me, and for staying even when I wasn’t at my best. Thank
+        you for always supporting me, listening to me, and choosing me even when I gave you reasons not to. Your love,
+        your care, and your presence mean more to me than I can explain. You make my days lighter and my heart calmer.
+      </p>
+
+      <p>These past two months with you have been so special. The laughs, the random talks, the kilig, and even the
+        serious moments that made us stronger. Being with you feels warm, safe, and genuine — and I never want to take
+        that for granted.</p>
+
+      <p>This Valentine’s Day, I just want you to know how grateful I am for you. I’m grateful that you’re my babi, my
+        person, my Valentine.</p>
+
+      <p>I promise to be better for you, to love you better, to appreciate you more, and to always choose you the way
+        you choose me.</p>
+
+      <p>Happy Valentine’s Day, babi. I love you so much.</p>
+
+      <p class="letter-sign">Love always, Justine 🌹</p>
+
+
+      <button class="btn-rose" id="letterContinue">Continue ✨</button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════
+       SECTION 3 · VALENTINE QUESTION
+  ══════════════════════════ -->
+  <section id="questionSection" class="page-section hidden">
+    <div class="question-card">
+      <div class="q-roses">🌹 🌹 🌹</div>
+      <h2 class="question-title">Will you be my Valentine? 💘</h2>
+      <p class="question-sub">Please say yes, babi 🥺</p>
+      <div class="btn-area" id="btnArea">
+        <button id="yesBtn">Yes! 💕</button>
+        <button id="noBtn">No 🙃</button>
+      </div>
+      <p id="q-response"></p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════
+       SECTION 4 · THANK YOU
+  ══════════════════════════ -->
+  <section id="thankYouSection" class="page-section hidden">
+    <div class="thankyou-card">
+      <div class="ty-icon">🌹</div>
+      <h1 class="ty-title">Thank You, Babi! 💖</h1>
+      <p class="ty-msg">
+        You just made my heart the happiest! 💓<br><br>
+        I promise to love you every single day, to be the person you deserve, and to make every moment with you
+        something worth remembering.<br><br>
+        You are my favorite person, my safe place, my Valentine. 🌹
+      </p>
+      <div class="ty-hearts">🌹 💕 🌹 💕 🌹</div>
+      <button class="ty-continue" id="thankYouContinue">See Your Surprises ✨</button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════
+       SECTION 5 · CATEGORIES
+  ══════════════════════════ -->
+  <section id="categoriesSection" class="page-section hidden">
+    <div class="cat-wrap">
+      <h1 class="cat-title">For You, Babi 🌹</h1>
+      <div class="cat-grid">
+        <div class="cat-card" id="category1">
+          <span class="cat-icon">🎁</span>
+          <h3>A Surprise For You</h3>
+          <p>Something beautiful awaits...</p>
+        </div>
+        <div class="cat-card" id="category2">
+          <span class="cat-icon">📸</span>
+          <h3>Our Memories</h3>
+          <p>Every moment I treasure with you</p>
+        </div>
+        <div class="cat-card" id="category3">
+          <span class="cat-icon">🎵</span>
+          <h3>Our Song</h3>
+          <p>The one that reminds me of us</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════
+       SECTION 6 · ROSES / FLOWERS
+  ══════════════════════════ -->
+  <section id="rosesSection" class="page-section hidden">
+    <div class="roses-wrap">
+      <button class="back-btn" id="backFromRoses">← Back</button>
+      <h1 class="detail-title">For You, Babi 🌹</h1>
+
+      <div class="roses-stage" id="rosesStage">
+        <!-- Animated BG effects behind photo -->
+        <div class="rose-bg-rings"></div>
+        <div class="rose-bg-glow"></div>
+        <div class="rose-particles" id="roseParticles"></div>
+
+        <img src="image/rose.png" alt="Flowers for you" class="roses-img"
+          onerror="this.style.display='none'; document.getElementById('roseEmojiFallback').style.display='block'">
+        <div id="roseEmojiFallback" class="rose-emoji-fallback" style="display:none">
+          🌹💐🌹<br>🌸🌺🌸<br>🌹💐🌹
         </div>
       </div>
 
-      <!-- Love Letter -->
-      <div id="loveLetter" class="love-letter hidden">
-        <p>To my Babi, my Valentine 🤍</p>
+      <p class="rose-msg">
+        Every flower is a reason I love you.<br>
+        Every petal is a moment I'll cherish forever. 💕
+      </p>
+    </div>
+  </section>
 
-        <p>Happy Valentine’s Day, love.</p>
+  <!-- ══════════════════════════
+       SECTION 7 · MEMORIES
+  ══════════════════════════ -->
+  <section id="memoriesSection" class="page-section hidden">
+    <div class="memories-wrap">
+      <button class="back-btn" id="backFromMemories">← Back</button>
+      <h1 class="detail-title">Our Story 📸</h1>
+      <p class="mem-label">Every picture is a piece of my heart ✨</p>
 
-        <p>
-          It’s only been two months of us, but it already feels like we’ve
-          shared so many memories, full of laughter, happiness, kulit moments,
-          and even the little fights that we always manage to fix together. And
-          that’s what I love most about us. We don’t give up on each other. We
-          choose each other every time.
-        </p>
+      <!-- Strip 1 — scrolls left -->
+      <div class="photo-strip-wrap">
+        <div class="photo-strip strip-left" id="strip1">
+          <div class="photo-frame"><img src="image/image1.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image2.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image3.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image4.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image5.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image6.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image7.jfif" alt="memory"></div>
 
-        <p>
-          I want to say sorry for the times I fell asleep without telling you
-          and for the other things I did that hurt you. I know I made mistakes,
-          and I know there were moments I wasn’t careful with your feelings. You
-          never deserved that. Thank you for being so patient with me, for
-          understanding me, and for staying even when I was not at my best.
-        </p>
-
-        <p>
-          Thank you for always supporting me, for listening to me, and for
-          choosing me even when I gave you reasons not to. Your love, your care,
-          and your presence mean so much to me. You make my days lighter and my
-          heart calmer.
-        </p>
-
-        <p>
-          These past two months with you have been so special. The laughs, the
-          random talks, the kilig, and even the serious moments that made us
-          stronger. Being with you feels warm, safe, and genuine.
-        </p>
-
-        <p>
-          This Valentine’s Day, I just want you to know how grateful I am for
-          you. I’m grateful that you’re my babi, my person, my Valentine.
-        </p>
-
-        <p>
-          I promise to be better for you, to love you better, and to always
-          choose you the way you choose me.
-        </p>
-
-        <p>Happy Valentine’s Day, babi. I love you so much.</p>
-
-        <p>Love always,<br />Justine</p>
-        <button class="continue-btn" id="letterContinue">Continue ✨</button>
-      </div>
-
-      <!-- Valentine Question -->
-      <div id="valentineQuestion" class="valentine-question hidden">
-        <h2 class="question">Will you be my Valentine? 💘</h2>
-        <div class="buttons">
-          <button id="yesBtn">Yes 💕</button>
-          <button id="noBtn">No 🙃</button>
-        </div>
-        <p id="response"></p>
-      </div>
-
-      <!-- Thank You -->
-      <div id="thankYouLetter" class="thank-you-letter hidden">
-        <h1 class="thank-you-title">Thank You! 💖</h1>
-        <p class="thank-you-message">
-          You just made my heart skip a beat! 💓<br /><br />
-          I promise to make this Valentine's Day absolutely special, filled with
-          love, laughter, and unforgettable moments.
-        </p>
-        <div class="thank-you-hearts">💕 💖 💗 💓 💝</div>
-        <p class="thank-you-message">With all my love, Forever yours 💘</p>
-        <button class="continue-btn" id="thankYouContinue">Continue ✨</button>
-      </div>
-
-      <!-- Surprise Categories -->
-      <div id="surpriseCategories" class="surprise-categories hidden">
-        <h1 class="surprise-title">Choose Your Surprise 🎁</h1>
-        <div class="category-grid">
-          <div class="category-card" id="category1">
-            <div class="category-icon">🌹</div>
-            <h3>Flowers For You</h3>
-            <p>A bouquet of love awaits...</p>
-          </div>
-          <div class="category-card" id="category2">
-            <div class="category-icon">📸</div>
-            <h3>Our Memories</h3>
-            <p>Captured moments together</p>
-          </div>
-          <div class="category-card" id="category3">
-            <div class="category-icon">🎵</div>
-            <h3>Our Song</h3>
-            <p>The melody of us</p>
-          </div>
+          <!-- duplicates for seamless loop -->
+          <div class="photo-frame"><img src="image/image1.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image2.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image3.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image4.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image5.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image6.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image7.jfif" alt="memory"></div>
         </div>
       </div>
 
-      <!-- Flowers Section -->
-      <div id="flowersSection" class="section-detail hidden">
-        <button class="back-btn" id="backFromFlowers">← Back</button>
-        <h1 class="section-title">For You 🌹</h1>
-        <div class="flowers-container">
-          <img
-            src="image/pinkflower.avif"
-            alt="Beautiful flowers for you"
-            class="flowers-image"
-          />
+      <!-- Strip 2 -->
+      <div class="photo-strip-wrap">
+        <div class="photo-strip strip-left-slow" id="strip2">
+          <div class="photo-frame"><img src="image/image8.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image9.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image10.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image11.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image12.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image13.jfif" alt="memory"></div>
+
+          <!-- duplicates -->
+          <div class="photo-frame"><img src="image/image8.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image9.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image10.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image11.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image12.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image13.jfif" alt="memory"></div>
         </div>
-        <p class="section-message">
-          Every flower represents a reason why I love you.<br />
-          Each petal holds a memory we've created together. 💕
-        </p>
       </div>
 
-      <!-- Photos Section -->
-      <div id="photosSection" class="section-detail hidden">
-        <button class="back-btn" id="backFromPhotos">← Back</button>
-        <h1 class="section-title">Our Beautiful Moments 📸</h1>
-        <div class="photo-grid">
-          <div class="photo-item">
-            <img src="image/2Monthsary.JPG" alt="2 Monthsary" />
-            <p class="photo-caption">2 Monthsary 💕</p>
-          </div>
-          <div class="photo-item">
-            <img src="image/date1.gif" alt="Our Date" />
-            <p class="photo-caption">Date Night 🌙</p>
-          </div>
-          <div class="photo-item">
-            <img src="image/Date2.JPG" alt="Another Date" />
-            <p class="photo-caption">Together Always ✨</p>
-          </div>
-          <div class="photo-item">
-            <img src="image/legal.jpg" alt="Legal Photo" />
-            <p class="photo-caption">Official 📸</p>
-          </div>
-          <div class="photo-item">
-            <img src="image/rest.jpg" alt="Rest Time" />
-            <p class="photo-caption">Peaceful Moments 😊</p>
-          </div>
-          <div class="photo-item">
-            <img src="image/rest2.jpg" alt="Rest Time 2" />
-            <p class="photo-caption">Sweet Dreams 💭</p>
-          </div>
+      <!-- Strip 3 -->
+      <div class="photo-strip-wrap">
+        <div class="photo-strip strip-left-fast" id="strip3">
+          <div class="photo-frame"><img src="image/image14.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image15.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image16.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image17.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image18.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image19.jfif" alt="memory"></div>
+
+          <!-- duplicates -->
+          <div class="photo-frame"><img src="image/image14.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image15.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image16.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image17.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image18.jfif" alt="memory"></div>
+          <div class="photo-frame"><img src="image/image19.jfif" alt="memory"></div>
         </div>
-        <p class="section-message">
-          Every picture tells our beautiful story. 💕
-        </p>
       </div>
 
-      <!-- Song Section -->
-      <div id="songSection" class="section-detail hidden">
-        <button class="back-btn" id="backFromSong">← Back</button>
-        <h1 class="section-title">Our Song 🎵</h1>
-        <div class="music-player">
-          <div class="vinyl-record"><div class="vinyl-center"></div></div>
-          <div class="song-info">
-            <h2>Planeta</h2>
-            <p>Matt Wilson</p>
+
+      <p class="mem-bottom-msg">Every moment with you is my favorite memory 🌹</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════
+       SECTION 8 · SONG
+  ══════════════════════════ -->
+  <section id="songSection" class="page-section hidden">
+    <div class="song-wrap">
+      <button class="back-btn" id="backFromSong">← Back</button>
+      <h1 class="detail-title">Our Song 🎵</h1>
+
+      <div class="song-stage">
+        <!-- spinning aura rings -->
+        <div class="song-aura aura-1"></div>
+        <div class="song-aura aura-2"></div>
+        <div class="song-aura aura-3"></div>
+
+        <!-- Vinyl -->
+        <div class="vinyl-wrap">
+          <div class="vinyl" id="vinylDisc">
+            <div class="vinyl-label">
+              <div class="vinyl-dot"></div>
+            </div>
           </div>
-          <audio controls>
-            <source
-              src="bg-music/Planeta by Matt Wilson (Lyrics) [QOoQlhUrCtE].mp3"
-              type="audio/mpeg"
-            />
-          </audio>
+          <div class="needle" id="needle"></div>
         </div>
-        <p class="section-message">
-          Every time this song plays, it reminds me of us. 💕
+
+        <!-- Song waves -->
+        <div class="waves" id="waves">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+
+        <p class="song-title-text">Planeta</p>
+        <p class="song-artist-text">Matt Wilson</p>
+
+        <!-- Custom player -->
+        <div class="custom-player">
+          <button class="play-btn" id="playBtn">▶</button>
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="time-display" id="timeDisplay">0:00</span>
+        </div>
+
+        <audio id="songAudio">
+          <source src="bg-music/Planeta by Matt Wilson (Lyrics) [QOoQlhUrCtE].mp3" type="audio/mpeg">
+        </audio>
+
+        <p class="song-msg">
+          Every time this song plays,<br>
+          I think of you. I think of us. 🌹
         </p>
       </div>
     </div>
+  </section>
 
-    <script src="animation.js"></script>
-  </body>
+  <script src="animation.js"></script>
+  <script src="script.js"></script>
+</body>
+
 </html>
